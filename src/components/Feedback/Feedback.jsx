@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import css from './Feedback.module.css';
 export class Feedback extends Component {
   constructor({ props }) {
@@ -95,3 +96,7 @@ export class Feedback extends Component {
     );
   }
 }
+
+Feedback.propTypes = {
+  props: PropTypes.objectOf(PropTypes.number),
+};
