@@ -10,7 +10,8 @@
 
 .summary {
 }
-.entry {
+.entry,
+.notification {
   margin: var(--margin-component);
   display: block;
 }

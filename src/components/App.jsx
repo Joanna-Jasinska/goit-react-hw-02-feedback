@@ -20,10 +20,9 @@ export class App extends Component {
   }
 
   render() {
-    // console.log(this.state);
     return (
       <div className="app">
-        <Feedback stats={this.state} />
+        <Feedback props={this.state} />
       </div>
     );
   }

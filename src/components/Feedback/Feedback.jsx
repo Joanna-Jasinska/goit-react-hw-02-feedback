@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import css from './Feedback.module.css';
 export class Feedback extends Component {
-  constructor({ stats }) {
+  constructor({ props }) {
     super();
-    this.state = { ...stats };
+    this.state = { ...props };
   }
   feedbackBtnClick = (e, key) => {
     e.preventDefault();
@@ -12,60 +12,86 @@ export class Feedback extends Component {
       [key]: prevState[key] + 1,
     }));
   };
-  FeedbackOptions = () => (
+  countTotalFeedback = () =>
+    Object.values({ ...this.state }).reduce((a, b) => a + b, 0);
+  countPositiveFeedbackPercentage = () =>
+    Math.round((100 * this.state.good) / this.countTotalFeedback() || 0);
+  Section = ({ title, children }) => (
+    <section className={css.feedback}>
+      <h2 className={css.title}>{title}</h2>
+      {children}
+    </section>
+  );
+  Notification = ({ message }) => (
+    <span className={css.notification}>{message}</span>
+  );
+  FeedbackOptions = ({ options, onLeaveFeedback }) => (
     <div className="feedback--btns">
-      {Object.keys({ ...this.state }).map(statekey => {
+      {[...options].map(key => {
         return (
           <button
-            className={`${css.btn}  ${statekey}`}
-            onClick={e => this.feedbackBtnClick(e, statekey)}
+            className={`${css.btn}  ${key}`}
+            onClick={e => onLeaveFeedback(e, key)}
           >
-            {statekey[0].toUpperCase()}
-            {statekey.slice(1)}
+            {key[0].toUpperCase() + '' + key.slice(1)}
           </button>
         );
       })}
     </div>
   );
-  countTotalFeedback = () =>
-    Object.values({ ...this.state }).reduce((a, b) => a + b, 0);
-  countPositiveFeedbackPercentage = () =>
-    ((100 * this.state.good) / this.countTotalFeedback() || 0).toFixed(0);
-  Statistics = () => (
+  Statistics = ({ total, positivePercentage, ...stats }) => (
     <div className={css.summary}>
       <h2>Statistics</h2>
-      {Object.keys({ ...this.state }).map(statekey => {
-        return (
+      {total > 0 && (
+        <>
+          {Object.keys({ ...stats }).map(statekey => {
+            return (
+              <span className={css.entry}>
+                {statekey[0].toUpperCase() + '' + statekey.slice(1)}:
+                <span className={`${css.value} ${statekey}`}>
+                  {stats[statekey]}
+                </span>
+              </span>
+            );
+          })}
           <span className={css.entry}>
-            {statekey[0].toUpperCase()}
-            {statekey.slice(1)}:
-            <span className={`${css.value} ${statekey}`}>
-              {this.state[statekey]}
+            Total:
+            <span className={`${css.value} total`}>{total}</span>
+          </span>
+          <span className={css.entry}>
+            Positive feedback:
+            <span className={`${css.value} positive`}>
+              {positivePercentage}%
             </span>
           </span>
-        );
-      })}
-      <span className={css.entry}>
-        Total:
-        <span className={`${css.value} total`}>
-          {this.countTotalFeedback()}
-        </span>
-      </span>
-      <span className={css.entry}>
-        Positive feedback:
-        <span className={`${css.value} positive`}>
-          {this.countPositiveFeedbackPercentage()}%
-        </span>
-      </span>
+        </>
+      )}
     </div>
   );
 
   render() {
+    const total = this.countTotalFeedback();
+    const stats = {
+      ...this.state,
+      ...{ total: total },
+      ...{ positivePercentage: this.countPositiveFeedbackPercentage() },
+    };
+
     return (
-      <div className="feedback">
-        <this.FeedbackOptions />
-        <this.Statistics />
-      </div>
+      <this.Section title="Please leave feedback">
+        <this.FeedbackOptions
+          options={[...Object.keys(this.state)]}
+          onLeaveFeedback={this.feedbackBtnClick}
+        />
+        {total ? (
+          <this.Statistics {...stats} />
+        ) : (
+          <>
+            <this.Statistics />
+            <this.Notification message="There is no feedback" />
+          </>
+        )}
+      </this.Section>
     );
   }
 }
