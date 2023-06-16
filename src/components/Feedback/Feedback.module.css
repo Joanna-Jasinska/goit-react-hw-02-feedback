@@ -6,11 +6,11 @@
   text-align: center;
   display: inline-block;
   border: 0;
-  transition-duration: 100ms;
+  transition-duration: var(--duration-short);
 }
 
 .btn:hover {
-  transform: scale(1.04);
+  transform: var(--scale-small);
 }
 
 .summary {

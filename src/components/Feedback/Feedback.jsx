@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import { Statistics } from 'components/Statistics/Statistics';
+// import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import css from './Feedback.module.css';
 export class Feedback extends Component {
   constructor({ props }) {
@@ -40,40 +42,11 @@ export class Feedback extends Component {
       })}
     </div>
   );
-  Statistics = ({ total, positivePercentage, ...stats }) => (
-    <div className={css.summary}>
-      <h2>Statistics</h2>
-      {total > 0 && (
-        <>
-          {Object.keys({ ...stats }).map(statekey => {
-            return (
-              <span className={css.entry}>
-                {statekey[0].toUpperCase() + '' + statekey.slice(1)}:
-                <span className={`${css.value} ${statekey}`}>
-                  {stats[statekey]}
-                </span>
-              </span>
-            );
-          })}
-          <span className={css.entry}>
-            Total:
-            <span className={`${css.value} total`}>{total}</span>
-          </span>
-          <span className={css.entry}>
-            Positive feedback:
-            <span className={`${css.value} positive`}>
-              {positivePercentage}%
-            </span>
-          </span>
-        </>
-      )}
-    </div>
-  );
 
   render() {
     const total = this.countTotalFeedback();
     const stats = {
-      ...this.state,
+      stats: { ...this.state },
       ...{ total: total },
       ...{ positivePercentage: this.countPositiveFeedbackPercentage() },
     };
@@ -85,10 +58,12 @@ export class Feedback extends Component {
           onLeaveFeedback={this.feedbackBtnClick}
         />
         {total ? (
-          <this.Statistics {...stats} />
+          // <this.Statistics {...stats} />
+          // { total, positivePercentage, ...stats }
+          <>calculated stats</>
         ) : (
           <>
-            <this.Statistics />
+            <Statistics stats />
             <this.Notification message="There is no feedback" />
           </>
         )}

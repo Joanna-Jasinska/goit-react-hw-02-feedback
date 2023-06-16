@@ -18,6 +18,8 @@
   --color-variant4: rgba(45, 216, 255, 0.3);
   --color-variant5: rgba(0, 198, 243, 0.3);
   --color-variant6: rgba(0, 177, 217, 0.3);
+  --duration-short: 100ms;
+  --scale-small: scale(1.04);
 }
 
 body {
