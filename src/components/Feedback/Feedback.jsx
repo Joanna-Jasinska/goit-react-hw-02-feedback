@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { Statistics } from 'components/Statistics/Statistics';
-// import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Statistics } from './Statistics/Statistics';
+import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import css from './Feedback.module.css';
 export class Feedback extends Component {
   constructor({ props }) {
@@ -14,6 +14,8 @@ export class Feedback extends Component {
       ...prevState,
       [key]: prevState[key] + 1,
     }));
+    console.log(`Feedback feedbackBtn this.state:`);
+    console.log(this.state);
   };
   countTotalFeedback = () =>
     Object.values({ ...this.state }).reduce((a, b) => a + b, 0);
@@ -28,20 +30,6 @@ export class Feedback extends Component {
   Notification = ({ message }) => (
     <span className={css.notification}>{message}</span>
   );
-  FeedbackOptions = ({ options, onLeaveFeedback }) => (
-    <div className="feedback--btns">
-      {[...options].map(key => {
-        return (
-          <button
-            className={`${css.btn}  ${key}`}
-            onClick={e => onLeaveFeedback(e, key)}
-          >
-            {key[0].toUpperCase() + '' + key.slice(1)}
-          </button>
-        );
-      })}
-    </div>
-  );
 
   render() {
     const total = this.countTotalFeedback();
@@ -53,17 +41,15 @@ export class Feedback extends Component {
 
     return (
       <this.Section title="Please leave feedback">
-        <this.FeedbackOptions
+        <FeedbackOptions
           options={[...Object.keys(this.state)]}
           onLeaveFeedback={this.feedbackBtnClick}
         />
         {total ? (
-          // <this.Statistics {...stats} />
-          // { total, positivePercentage, ...stats }
-          <>calculated stats</>
+          <Statistics {...stats} />
         ) : (
           <>
-            <Statistics stats />
+            <Statistics {...stats} />
             <this.Notification message="There is no feedback" />
           </>
         )}
