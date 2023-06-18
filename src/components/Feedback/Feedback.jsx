@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import { Statistics } from './Statistics/Statistics';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import css from './Feedback.module.css';
+
 export class Feedback extends Component {
   constructor({ props }) {
     super();
