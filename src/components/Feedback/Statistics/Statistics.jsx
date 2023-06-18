@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import { nanoid } from 'nanoid';
 import css from './../Feedback.module.css';
 
 export class Statistics extends Component {
@@ -8,20 +9,14 @@ export class Statistics extends Component {
   }
 
   render() {
-    console.log('Statistics render this.props:');
-    console.log(this.props);
     return (
       <div className={css.summary}>
         <h2>Statistics</h2>
         {this.props.total > 0 && (
           <>
-            {console.log(`Statistics this.props.stats`)}
-            {console.log(this.props.stats)}
             {Object.keys({ ...this.props.stats }).map(statekey => {
-              console.log(`Statistics props statekey`);
-              console.log(statekey);
               return (
-                <span className={css.entry}>
+                <span className={css.entry} key={`feedbackStat${nanoid()}`}>
                   {statekey[0].toUpperCase() + '' + statekey.slice(1)}:
                   <span className={`${css.value} ${statekey}`}>
                     {this.props.stats[statekey]}
@@ -46,6 +41,10 @@ export class Statistics extends Component {
   }
 }
 
-// Statistics.propTypes = {
-//   props: PropTypes.objectOf(PropTypes.number),
-// };
+Statistics.propTypes = {
+  props: PropTypes.shape({
+    total: PropTypes.number.isRequired,
+    positivePercentage: PropTypes.number.isRequired,
+    stats: PropTypes.objectOf(PropTypes.number).isRequired,
+  }),
+};

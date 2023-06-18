@@ -1,11 +1,12 @@
 import { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import { nanoid } from 'nanoid';
 import css from './../Feedback.module.css';
 
 export class FeedbackOptions extends Component {
   constructor({ props }) {
     super();
-    this.state = { ...props };
+    // this.state = { ...props };
   }
 
   render() {
@@ -14,6 +15,7 @@ export class FeedbackOptions extends Component {
         {[...this.props.options].map(key => {
           return (
             <button
+              key={`feedbackBtn${nanoid()}`}
               className={`${css.btn}  ${key}`}
               onClick={e => this.props.onLeaveFeedback(e, key)}
             >
@@ -27,5 +29,8 @@ export class FeedbackOptions extends Component {
 }
 
 FeedbackOptions.propTypes = {
-  props: PropTypes.objectOf(PropTypes.number),
+  props: PropTypes.shape({
+    onLeaveFeedback: PropTypes.func.isRequired,
+    options: PropTypes.objectOf(PropTypes.number),
+  }),
 };

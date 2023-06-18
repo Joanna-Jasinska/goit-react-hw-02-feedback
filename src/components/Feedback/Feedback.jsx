@@ -14,8 +14,6 @@ export class Feedback extends Component {
       ...prevState,
       [key]: prevState[key] + 1,
     }));
-    console.log(`Feedback feedbackBtn this.state:`);
-    console.log(this.state);
   };
   countTotalFeedback = () =>
     Object.values({ ...this.state }).reduce((a, b) => a + b, 0);
