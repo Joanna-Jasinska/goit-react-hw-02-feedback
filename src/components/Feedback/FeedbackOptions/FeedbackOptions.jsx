@@ -4,11 +4,6 @@ import { nanoid } from 'nanoid';
 import css from './../Feedback.module.css';
 
 export class FeedbackOptions extends Component {
-  constructor({ props }) {
-    super();
-    // this.state = { ...props };
-  }
-
   render() {
     return (
       <div className="feedback--btns">
