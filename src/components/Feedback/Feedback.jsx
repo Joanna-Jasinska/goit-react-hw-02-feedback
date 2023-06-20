@@ -2,6 +2,8 @@ import { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Statistics } from './Statistics/Statistics';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Notification } from './Notification/Notification';
+import { Section } from './Section/Section';
 import css from './Feedback.module.css';
 
 export class Feedback extends Component {
@@ -20,15 +22,6 @@ export class Feedback extends Component {
     Object.values({ ...this.state }).reduce((a, b) => a + b, 0);
   countPositiveFeedbackPercentage = () =>
     Math.round((100 * this.state.good) / this.countTotalFeedback() || 0);
-  Section = ({ title, children }) => (
-    <section className={css.feedback}>
-      <h2 className={css.title}>{title}</h2>
-      {children}
-    </section>
-  );
-  Notification = ({ message }) => (
-    <span className={css.notification}>{message}</span>
-  );
 
   render() {
     const total = this.countTotalFeedback();
@@ -39,20 +32,24 @@ export class Feedback extends Component {
     };
 
     return (
-      <this.Section title="Please leave feedback">
-        <FeedbackOptions
-          options={[...Object.keys(this.state)]}
-          onLeaveFeedback={this.feedbackBtnClick}
-        />
-        {total ? (
-          <Statistics {...stats} />
-        ) : (
-          <>
+      <div className={css.feedback}>
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={[...Object.keys(this.state)]}
+            onLeaveFeedback={this.feedbackBtnClick}
+          />
+        </Section>
+        <Section title="Statistics">
+          {total ? (
             <Statistics {...stats} />
-            <this.Notification message="There is no feedback" />
-          </>
-        )}
-      </this.Section>
+          ) : (
+            <>
+              <Statistics {...stats} />
+              <Notification message="There is no feedback" />
+            </>
+          )}
+        </Section>
+      </div>
     );
   }
 }

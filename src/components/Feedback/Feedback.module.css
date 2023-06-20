@@ -1,3 +1,8 @@
+.feedback {
+  display: flex;
+  flex-direction: column;
+}
+
 .btn {
   margin: var(--margin-component);
   padding: 3px 5px;
@@ -13,8 +18,6 @@
   transform: var(--scale-small);
 }
 
-.summary {
-}
 .entry,
 .notification {
   margin: var(--margin-component);

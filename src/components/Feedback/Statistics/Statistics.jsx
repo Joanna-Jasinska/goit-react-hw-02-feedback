@@ -7,7 +7,6 @@ export class Statistics extends Component {
   render() {
     return (
       <div className={css.summary}>
-        <h2>Statistics</h2>
         {this.props.total > 0 && (
           <>
             {Object.keys({ ...this.props.stats }).map(statekey => {
