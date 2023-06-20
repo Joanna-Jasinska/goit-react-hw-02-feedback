@@ -40,14 +40,13 @@ export class Feedback extends Component {
           />
         </Section>
         <Section title="Statistics">
-          {total ? (
-            <Statistics {...stats} />
-          ) : (
-            <>
+          <>
+            {total ? (
               <Statistics {...stats} />
+            ) : (
               <Notification message="There is no feedback" />
-            </>
-          )}
+            )}
+          </>
         </Section>
       </div>
     );
