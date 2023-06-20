@@ -27,8 +27,8 @@ export class Feedback extends Component {
     const total = this.countTotalFeedback();
     const stats = {
       stats: { ...this.state },
-      ...{ total: total },
-      ...{ positivePercentage: this.countPositiveFeedbackPercentage() },
+      total: total,
+      positivePercentage: this.countPositiveFeedbackPercentage(),
     };
 
     return (
